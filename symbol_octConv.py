@@ -21,6 +21,12 @@ def firstOctConv(data, settings, ch_in, ch_out, name, kernel=(1,1), pad=(0,0), s
     hf_pool_conv = Conv(data=hf_pool, num_filter=lf_ch_out, kernel=kernel, pad=pad, stride=(1,1), name=('%s_hf_pool_conv' % name))
 
     out_h = hf_conv # 高频信号：原始信号-> 普通卷积（这里有疑问，为什么高频信号不应该是要减去低频信号才可以得到的吗）
+                                                  # 尝试解答这个疑问：因为实际上OctConv希望能在降低计算量的同时提升效果，
+                                                  # 高低频通路如果大小一样的话，其实低频卷积上为了大的感受野还是要用很大的卷积核，因此直接在小图上卷积
+                                                  # 至于为什么先做了卷积才分频，这个问题要这样看：
+                                                  # 其实比起分频段卷积，OctConv更像是“同时维护原始map和pooling后的map”，
+                                                  # 也就是说，在原来的基础上维护一条pooling后的通路，并且在每次卷积的时候进行数据交换，
+                                                  # 仅此而已，所谓分频只是一种思想，一种类比，实际上并没有完全做到的。
     out_l = hf_pool_conv # 低频信号：高频信号 -> 2x2 avg Pooling -> 卷积（有疑问，pooling后不是会变小很多吗）
     return out_h, out_l 
 
