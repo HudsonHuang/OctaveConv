@@ -15,6 +15,8 @@ A：OctConv实际上没有真正意义上做分频这件事
   - 其实比起分频段卷积，OctConv更像是“同时维护原始map和pooling后的map”，这样的操作。也就是说，在原来的基础上维护一条pooling后的通路，并且在每次卷积的时候进行数据交换，  
   - 仅此而已，所谓分频只是一种思想，一种类比，实际上并没有完全做到的。
 
+Pytorch版写得比较简洁一些，把OctConv的“同时维护大小特征图”的性质表露得更露骨。也可以参考一下。https://github.com/HudsonHuang/OctConv
+
 ## 原始介绍
 This repository contains a [MXNet](https://github.com/apache/incubator-mxnet) implementation of the paper [Drop an Octave: Reducing Spatial Redundancy in Convolutional Neural Networks with Octave Convolution](https://arxiv.org/abs/1904.05049). 
 
